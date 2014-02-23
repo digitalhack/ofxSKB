@@ -271,7 +271,7 @@ void ofxSKB::draw() {
 
       if (kbFont.isLoaded()) kbFont.unbind();
       kbFont.loadFont(kbFontName, 2*kbSizer);
-      for(int i=0; i<keys.size(); i++) {
+      for(unsigned int i=0; i<keys.size(); i++) {
         keys[i].width = keys[i].baseWidth*kbSizer,
         keys[i].height = keys[i].baseHeight*kbSizer;
         keys[i].padTop = keys[i].basePadTop*kbSizer;
@@ -285,7 +285,7 @@ void ofxSKB::draw() {
 
     ypos += keys[0].padTop;
 
-    for(int i=0; i<keys.size(); i++) {
+    for(unsigned int i=0; i<keys.size(); i++) {
       xpos += keys[i].padLeft;
 
       keys[i].x = xpos;
@@ -311,7 +311,10 @@ void ofxSKB::draw() {
       int tmp = shiftState();
       kbFont.drawString(keys[i].label[tmp], xpos+keys[i].padLeft,
                          (ypos+(keys[i].height))-keys[i].padTop);
-
+#ifdef TARGET_SUNXI_MFB
+#pragma message ("ofEnableAlphaBlending() inserted")
+      ofEnableAlphaBlending();
+#endif
       if(keys[i].isLastInRow) {
         xpos  = x;
         ypos += keys[i].height + keys[i].padBottom + keys[i].padTop;
@@ -354,7 +357,7 @@ void ofxSKB::mouseMoved(ofMouseEventArgs& args){
 
 //--------------------------------------------------------------
 void ofxSKB::mousePressed(ofMouseEventArgs& args){
-  for(int i=0; i<keys.size(); i++) {
+  for(unsigned int i=0; i<keys.size(); i++) {
     if (keyTest(keys[i], ofGetAppPtr()->mouseX, ofGetAppPtr()->mouseY)) {
         int tmp = shiftState(OFXSKB_PRESS, keys[i].key[0]);
 
@@ -394,7 +397,7 @@ void ofxSKB::mousePressed(ofMouseEventArgs& args){
 void ofxSKB::mouseReleased(ofMouseEventArgs& args){
   moveKeyboard = false;
   resizeKeyboard = false;
-  for(int i=0; i<keys.size(); i++) {
+  for(unsigned int i=0; i<keys.size(); i++) {
     if (keyTest(keys[i], ofGetAppPtr()->mouseX, ofGetAppPtr()->mouseY)) {
         int tmp = shiftState(OFXSKB_RELEASE, keys[i].key[0]);
 
