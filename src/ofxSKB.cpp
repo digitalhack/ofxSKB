@@ -22,6 +22,7 @@ ofxSKB::ofxSKB() {
   shift1KeyPressed = false;
   moveKeyboard = false;
   resizeKeyboard = false;
+  kbShow = false;
 
   textColor = 0x000000;
 	textBGColor = 0x888888;
